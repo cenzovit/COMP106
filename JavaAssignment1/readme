@@ -1,0 +1,28 @@
+Vincenzo Vitiello
+cenzo.vit@gmail.com
+
+This is the readme file for the first assignment in comp106-fall2011. Compiling and 
+running my program is quite simple (follows the guidelines given). Simply, run
+"javac Main.java" in order to compile the program (which I have already done), and
+then run "java Main".
+
+Some special features I have added to this assignment:
+
+My widgets and drawing area have actual functionality. You'll notice that my program
+is a very primitive paint type applet. By clicking and dragging in the drawing area,
+you can create shapes. 
+
+You can choose between creating rectangles or ovals by using two of the widgets found 
+in the control panel. 
+
+The control panel also contains a widget which clears all drawn shapes, and a widget 
+which exits the applet. 
+
+You'll also notice that I made the widgets give a visual comfirmation that they are 
+being hovered over.
+
+When pressed, all widgets write a simple confirmation to the command line of what
+occurred.
+
+Finally, instead of having an empty state panel I added a simple JLabel to the JPanel
+which reads, "This is the State Panel" 

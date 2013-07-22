@@ -1,0 +1,93 @@
+Vincenzo Vitiello
+Cenzo.vit@gmail.com
+
+This is the readme file for the fifth assignment in comp106-fall2011. 
+Compiling and running my program is quite simple (follows the guidelines 
+given). Simply, run "javac Main.java" in order to compile the program (which 
+I have already done), and then run "java Main".
+
+As asked, I will try to outline the inheritance, aggregation, collaboration, 
+and encapsulation as best I can.
+
+The class inheritance hierarchy is as follows:
+----------------------------------------------
+Shape
+    <- cubeShape
+    <- sphereShape
+    <- coneShape
+    <- cylinderShape
+
+JFrame
+    <- Main
+
+JPanel
+    <- guiControlPanel
+
+
+JComboBox
+    <- shapeComboBox
+
+JButton
+    <- rotateHButton
+    <- rotateVButton 
+    <- quitButton 
+
+
+The aggregation hierarchy is as follows:
+----------------------------------------
+Main
+    <- Scene 
+       <- Shapes (the 4 subclasses
+    <- guiControlPanel
+       <- quitButton
+       <- rotateVButton
+       <- rotateHButton
+       <- shapeComboBox 
+               
+The collaboration relationships are as follows:
+-----------------------------------------------
+Main
+    <- guiControlPanel
+        <- Scene
+        <- quitButton	
+    	<- rotateVButton 
+    	    <- Scene
+	<- rotateHButton 
+    	    <- Scene
+        <- shapeComboBox
+	
+Scene
+    <- Shapes
+        
+The Encapsulation within each class is as follows:
+--------------------------------------------------
+Scene
+    <- the scene class entirely handles initializing the 3d objects as well as
+       maintaining them. All other classes must rely on scene in order to 
+       affect the 3d shapes. The scene class also initializes the lighting.
+
+guiControlPanel
+    <- the guiControlPanel entirely handles laying out the controls at the 
+       bottom of the screen. It is responsible for initializing the buttons
+
+Shapes
+    <- each shape subclass entirely contains how to draw their unique image
+
+Main
+    <- the main class is responsible for initializing the Scene  
+       and the guiControlPanel
+
+-------------------------------------------------------------------------
+
+Some additional functionality I have added to this assignment:
+     -I have 4 unique 3D objects of which all have multiple instances.
+     -Each Object set can be rotated horizontally or vertically independently
+        of the other sets.
+     -I have created a very polished tabbed guiControlPanel with a drop down
+        menu to select an Object set and buttons to rotate them horizontally
+        and vertically
+     -I have added lighting to the scene which shows in the shadows on the 
+        3D shapes.
+     -I have laid out the objects in an 8x8 grid just like in the bejeweled
+        game. Also, the shapes are placed randomly as they would at the start
+        of a bejeweled game.

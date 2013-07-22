@@ -1,0 +1,176 @@
+Vincenzo Vitiello
+Cenzo.vit@gmail.com
+
+#################################################################
+Sorry this assignment is 4 hours late, I was traveling today and 
+lost several hours when I could not work, nor submit my work. Also,
+I ran into a ton of trouble implementing sound since the Applet 
+commands getCodeBase() and getDocumentBase() kept giving me 
+NULL pointer exceptions. It wasn't until I stumbled upon the sun
+audio package (and realized I could use getResourceAsStream that I 
+was finally able to succesfully load my sound files and piece 
+together how to implement audio.
+
+-Cenzo
+#################################################################
+
+This is the readme file for the fourth assignment in comp106-fall2011. 
+Compiling and running my program is quite simple (follows the guidelines 
+given). Simply, run "javac Main.java" in order to compile the program (which 
+I have already done), and then run "java Main".
+
+As asked, I will try to outline the inheritance, aggregation, collaboration, 
+and encapsulation as best I can.
+
+The class inheritance hierarchy is as follows:
+----------------------------------------------
+Tile
+    <- rectangleZeroTile
+    <- triangleOneTile
+    <- circleTwoTile
+    <- diamondThreeTile
+    <- pentagonFourTile
+    <- octagonFiveTile
+
+JFrame
+    <- Main
+
+JPanel
+    <- guiControlPanel
+
+JPopupMenu
+    <- musicPopUpMenu
+
+JComponent
+    <- Board
+        <- Game
+
+JComboBox
+    <- shapeComboBox
+
+JSlider
+    <- colorSlider
+
+JButton
+    <- newGameButton 
+    <- resetColorsButton 
+    <- randomColorsButton 
+    <- quitButton 
+
+MouseAdapter
+    <- popupTriggerListener
+
+The aggregation hierarchy is as follows:
+----------------------------------------
+Main
+    <- Game (MouseListener, paintComponent)
+       <- Board
+       	  <- Tiles (the six subclasses) 
+       <- StatePanel
+       	  <- JLabel
+       <- guiControlPanel
+           <- newGameButton 
+           <- resetColorsButton 
+           <- randomColorsButton 
+           <- quitButton
+	   <- colorSlider (for each color)
+	   <- shapeComboBox 
+        <- audio
+	<- popUpTriggerListener
+	    <- musicPopUpMenu
+       
+The collaboration relationships are as follows:
+-----------------------------------------------
+Main
+   
+Game (paintComponent, mouseClicked)
+    <- Board
+        <- Tiles
+    <- guiControlPanel
+        <- newGameButton
+	    <- Game	
+    	<- resetColorsButton 
+    	    <- Game
+	<- randomColorsButton 
+    	    <- Game
+	<- quitButton
+            <- Main 
+        <- shapeComboBox
+	    <- Game
+	<- colorSlider
+            <- Game    
+	<- Board
+    <- popUpTriggerListener
+        <- musicPopUpMenu
+	    <- audio
+
+The Encapsulation within each class is as follows:
+--------------------------------------------------
+Game
+    <- the game class entirely controls the drawing of the board and tiles
+       as well as handles user input through the mouseListener. It also
+       handles the JPanel "states" in order to update the score, the number
+       of moves attempted, and the number of valid moves. Furthermore, the
+       game class (through its parent class Board) handles the deletion
+       of sequences after a Tile has confirmed the presence of a large 
+       enough chain. The game class also handles the selection of tiles
+       and thus, the guiControlPanel.
+
+guiControlPanel
+    <- the guiControlPanel entirely controls the editing of the individual tiles
+       as well as the original buttons.
+
+Board 
+    <- the board class entirely contains the information regarding the 
+       drawing of the gameboard. Also, it is responsible for initializing
+       the assorted tiles and maintaineing there locations between user input.
+       Finally, the board class handles the coloring/color scheme of the tiles,
+       marks tiles for deletion, and removes deleted tiles.
+
+Tiles
+    <- each tile subclass entirely contains how to draw their unique image,
+       and is responsible for keeping track of the board should it change
+       dimensions. Each tile also stores whether it is selected which the
+       game uses to determine whether a swap is viable etc. The tile class
+       is also responsible for determining if a tile is part of vertical or
+       horizontal (or both) chain.
+
+Main
+    <- the main class is responsible for initializing the game (which 
+       in turn initilizes the board and state panel), the state panel, 
+       and the control panel (and its buttons).
+
+audio
+    <- the audio class entirely handles queuing the two playable songs
+       and the functions (play, pause, reset, next) which allow the songs
+       to be listented to.
+
+popUpTriggerListener
+    <- the popUpTriggerListener is responsible for initializing the music
+       popUpMenu when the game board is right clicked.  	 
+-------------------------------------------------------------------------
+
+Special effect include:
+     -The background music 
+     -The audio player with functionality through the popUpMenu
+     -The gameboard can resize 
+
+Some additional functionality I have added to this assignment:
+     -Right clicking on the game board makes an adaptive audio menu 
+     	  popup which can be used to control the two playable songs.
+          I also made sure that right click does not trigger the selection
+          of a tile.
+     -In order to implement the popup menu I needed to create my own custom
+          MouseListener which can be seen in popupTriggerListener.java
+     -I have implemented an audio player and queued two songs, which can
+     	  be played, paused, reset or skipped(next) through the use of the
+          audio menu.
+     -I have made the control panel adaptive to the situation. If the user
+     	  clicks the same tile twice (re-selects the selected tile) a special
+          tabbed control panel appears in which the user can review the tile
+          information, review the tile history, change the color of all tiles
+          of that shape, or transform the tile into a different shape.
+     -The additional three tiles added last assignment now have their own 
+     	  unique shapes.
+     -The gameboard will (for the most part) properly resize should the
+     	  user change the dimensions.    

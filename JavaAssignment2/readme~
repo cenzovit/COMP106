@@ -1,0 +1,84 @@
+Vincenzo Vitiello
+Cenzo.vit@gmail.com
+
+This is the readme file for the second assignment in comp106-fall2011. Compiling and
+running my program is quite simple (follows the guidelines given). Simply, run
+"javac Main.java" in order to compile the program (which I have already done), and
+then run "java Main".
+
+As asked, I will try to outline the inheritance, aggregation, collaboration, and
+encapsulation as best I can.
+
+The class inheritance hierarchy is as follows:
+----------------------------------------------
+Tile
+    <- redRectangleTile
+    <- blueCircleTile
+    <- greenTriangleTile
+
+JFrame
+    <- Main
+
+JComponent
+    <- Board
+        <- Game
+JButton
+    <- quitButton 
+
+The aggregation hierarchy is as follows:
+----------------------------------------
+Main
+    <- Game (MouseListener, paintComponent)
+       <- Board
+       	  <- Tiles (redRectangleTiles, blueCircleTiles, greenTriangleTiles) 
+    <- StatePanel
+       <- JLabel
+    <- ControlPanel
+       <- quitButton
+
+The collaboration relationships are as follows:
+-----------------------------------------------
+Main
+    <- quitButton
+
+Game (paintComponent, mouseClicked)
+    <- Board
+        <- Tiles
+
+The Encapsulation within each class is as follows:
+--------------------------------------------------
+Game
+    <- the game class entirely controls the drawing of the board and tiles
+       as well as handles user input through the mouseListener. In the future
+       it will also track the score and maintaint a timer.
+
+Board 
+    <- the board class entirely contains the information regarding the 
+       drawing of the gameboard. Also, it is responsible for initializing
+       the assorted tiles and maintaineing there locations between user input
+
+Tiles
+    <- each tile subclass entirely contains how to draw their unique image,
+       and is responsible for keeping track of the board should it change
+       dimensions. Each tile also stores whether it is selected which the
+       game determine whether a swap is viable etc.
+
+Main
+    <- the main class is responsible for initializing the game (which 
+       in turn initilizes the board), the state panel, and the control
+       panel.  	 
+
+Some additional functionality I have added to this assignment:
+     -The board randomly generates the locations(types) of the initial 
+     	  tiles.
+     -The user can select/highlight a tile by clicking. Once a tile is 
+     	  selected, if the user selects the tile again, it will become 
+	  deselected. If the user selects a different tile, the Game 
+	  class will determine whether the tile is adjacent. If the tile 
+	  is, the two tiles will swap locations. If the tile is not, the 
+	  previous tile will become deselected and the newly selected 
+	  tile will be highlighted.
+     -The quitButton will properly exit the applet as well as write to 
+          the terminal.
+     -The gameboard will (for the most part) properly resize should the
+     	  user change the dimensions.    

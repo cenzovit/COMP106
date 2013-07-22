@@ -1,0 +1,121 @@
+Vincenzo Vitiello
+Cenzo.vit@gmail.com
+
+################################
+Thanks for understanding about the source code deletion fiasco. I now have
+an alias for rm to run rm -i just in case, and I am looking into 
+making a script which places rm'd files into a trash folder. After a long night
+and a groggy afternoon, I have managed to fully restore the game to the point
+it was at. Coincidentally, the chance to rewrite everything gave me the opportunity 
+to redesign some of my architecture which streamlined some of the methods.  
+
+-Vincenzo Vitiello
+################################
+
+This is the readme file for the third assignment in comp106-fall2011. 
+Compiling and running my program is quite simple (follows the guidelines 
+given). Simply, run "javac Main.java" in order to compile the program (which 
+I have already done), and then run "java Main".
+
+As asked, I will try to outline the inheritance, aggregation, collaboration, 
+and encapsulation as best I can.
+
+The class inheritance hierarchy is as follows:
+----------------------------------------------
+Tile
+    <- rectangleZeroTile
+    <- triangleOneTile
+    <- circleTwoTile
+    <- rectangleThreeTile
+    <- triangleFourTile
+    <- circleFiveTile
+
+JFrame
+    <- Main
+
+JComponent
+    <- Board
+        <- Game
+JButton
+    <- newGameButton 
+    <- resetColorsButton 
+    <- randomColorsButton 
+    <- quitButton 
+
+The aggregation hierarchy is as follows:
+----------------------------------------
+Main
+    <- Game (MouseListener, paintComponent)
+       <- Board
+       	  <- Tiles (the six subclasses) 
+       <- StatePanel
+       	  <- JLabel
+    <- ControlPanel
+       <- newGameButton 
+       <- resetColorsButton 
+       <- randomColorsButton 
+       <- quitButton 
+       
+The collaboration relationships are as follows:
+-----------------------------------------------
+Main
+    <- newGameButton 
+    <- resetColorsButton 
+    <- randomColorsButton 
+    <- quitButton 
+
+Game (paintComponent, mouseClicked)
+    <- Board
+        <- Tiles
+
+The Encapsulation within each class is as follows:
+--------------------------------------------------
+Game
+    <- the game class entirely controls the drawing of the board and tiles
+       as well as handles user input through the mouseListener. It also
+       handles the JPanel "states" in order to update the score, the number
+       of moves attempted, and the number of valid moves. Furthermore, the
+       game class (through its parent class Board) handles the deletion
+       of sequences after a Tile has confirmed the presence of a large 
+       enough chain.
+
+Board 
+    <- the board class entirely contains the information regarding the 
+       drawing of the gameboard. Also, it is responsible for initializing
+       the assorted tiles and maintaineing there locations between user input.
+       Finally, the board class handles the coloring/color scheme of the tiles,
+       marks tiles for deletion, and removes deleted tiles.
+
+Tiles
+    <- each tile subclass entirely contains how to draw their unique image,
+       and is responsible for keeping track of the board should it change
+       dimensions. Each tile also stores whether it is selected which the
+       game uses to determine whether a swap is viable etc. The tile class
+       is also responsible for determining if a tile is part of vertical or
+       horizontal (or both) chain.
+
+Main
+    <- the main class is responsible for initializing the game (which 
+       in turn initilizes the board and state panel), the state panel, 
+       and the control panel (and its buttons).  	 
+
+Some additional functionality I have added to this assignment:
+     -"Animation" of tile swaps, deletions, and new tile creation.
+         This took the most time as I did research into multithreading
+	 (which was succesful but lead to problems with the MouseListener)
+	 and the Event Dispatch Thread. I have utilized repaint() as well
+	 as carefully timed repaintImmediately()'s in conjuction with
+	 sleeping the main thread (making sure to try-catch exceptions).
+	 The most time definitely went into the algorithms to make this
+	 display smoothly so that the user could visual see what was going
+	 on. 
+     -Ability to randomize the colors of the tiles through the use
+         of the control panel button, "Random Colors".
+     -Ability to reset the colors of the tiles through the use of the
+         control panel button, "Reset Colors".		       
+     -The addition of three more tiles allowed me the ability to properly
+         let the newly created tiles (upon the deletion of a chain)
+	 create chains of their own since long sequences of new chains
+	 was unlikely.     
+     -The gameboard will (for the most part) properly resize should the
+     	  user change the dimensions.    
